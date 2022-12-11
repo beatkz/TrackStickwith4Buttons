@@ -1,5 +1,5 @@
-#include <Mouse.h>
-#include <Keyboard.h>
+#include "Mouse.h"
+#include "Keyboard.h"
 //for debugging, please rewrite to true
 const bool DEBUG_MODE = false;
 
@@ -20,7 +20,7 @@ const String STICK_ORIENTATION = "portrait";
 // Keyboard Wait Time in milliseconds
 const int MS_WAIT = 500;
 
-const int CENTER_RANGE = 50;
+const int CENTER_RANGE = 75;
 
 int relCfromVolval(int volval) {
   int relC = volval - 500;
@@ -81,7 +81,9 @@ void dumpStates(int stX, int stY) {
 }
 
 void actionHID(int relX, int relY) {
-  Mouse.move(mouseVelfromRelC(relX), mouseVelfromRelC(relY), 0);
+  if(abs(relX) > CENTER_RANGE || abs(relY) > CENTER_RANGE){
+    Mouse.move(mouseVelfromRelC(relX), mouseVelfromRelC(relY), 0);
+  }
 
   if (digitalRead(D_PIN_OBJ[0]) == LOW) {
     Keyboard.write(KEY_RETURN);
@@ -120,8 +122,8 @@ void setup() {
   if (DEBUG_MODE) {
     Serial.begin(9600);
   } else {
-    Keyboard.begin();
     Mouse.begin();
+    Keyboard.begin();
   }
 }
 
