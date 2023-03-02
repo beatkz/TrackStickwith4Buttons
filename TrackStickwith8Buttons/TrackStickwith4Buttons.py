@@ -4,7 +4,7 @@ import pyautogui
 import keyboard
 import pygame
 
-print("QuizKnockSTADIUM 回答補助用スクリプト")
+print("QuizKnockSTADIUM スタンプチャット補助用スクリプト")
 print("終了するにはCtrlキーを押しながらCを押すか、ウインドウを閉じてください")
 #SetupPart:
 ScreenRez = pyautogui.size()
@@ -21,35 +21,59 @@ PanelC = (1340 * rezScale, 850 * rezScale)
 PanelD = (1600 * rezScale, 850 * rezScale)
 PanelY = (1650 * rezScale, 1000 * rezScale)
 PanelCh = (1850 * rezScale, 1000 * rezScale)
-PanelCh1 = (1850 * rezScale, 150 * rezScale)
+PanelCh1 = (1650 * rezScale, 100 * rezScale)
+PanelCh2 = (1850 * rezScale, 100 * rezScale)
+PanelCh3 = (1650 * rezScale, 250 * rezScale)
+PanelCh4 = (1850 * rezScale, 250 * rezScale)
+PanelCh5 = (1650 * rezScale, 450 * rezScale)
+PanelCh6 = (1850 * rezScale, 450 * rezScale)
+PanelCh7 = (1650 * rezScale, 600 * rezScale)
+PanelCh8 = (1850 * rezScale, 600 * rezScale)
+PanelChPg = (1700 * rezScale, 800 * rezScale)
 
 
 while True:
-    '''
-    if keyboard.is_pressed("1"):
-        pyautogui.moveTo(PanelA)
-        pyautogui.mouseDown()
-        pyautogui.mouseUp()
-    elif keyboard.is_pressed("2"):
-        pyautogui.moveTo(PanelB)
-        pyautogui.mouseDown()
-        pyautogui.mouseUp()
-    elif keyboard.is_pressed("3"):
-        pyautogui.moveTo(PanelC)
-        pyautogui.mouseDown()
-        pyautogui.mouseUp()
-    elif keyboard.is_pressed("4"):
-        pyautogui.moveTo(PanelD)
-        pyautogui.mouseDown()
-        pyautogui.mouseUp()
-    '''
-
-    if keyboard.is_pressed("X"):
+    if keyboard.is_pressed("x"):
         pyautogui.moveTo(PanelY)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-    elif keyboard.is_pressed("C"):
+    elif keyboard.is_pressed("c"):
         pyautogui.moveTo(PanelCh)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
+    elif keyboard.is_pressed("q"):
         pyautogui.moveTo(PanelCh1)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("w"):
+        pyautogui.moveTo(PanelCh2)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("e"):
+        pyautogui.moveTo(PanelCh3)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("r"):
+        pyautogui.moveTo(PanelCh4)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("a"):
+        pyautogui.moveTo(PanelCh5)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("s"):
+        pyautogui.moveTo(PanelCh6)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("d"):
+        pyautogui.moveTo(PanelCh7)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("f"):
+        pyautogui.moveTo(PanelCh8)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
+    elif keyboard.is_pressed("g"):
+        pyautogui.moveTo(PanelChPg)
+        pyautogui.mouseDown()
+        pyautogui.mouseUp()
