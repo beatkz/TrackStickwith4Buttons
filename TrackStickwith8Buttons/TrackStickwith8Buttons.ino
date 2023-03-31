@@ -6,12 +6,12 @@ const bool DEBUG_MODE = false;
 //Uncomment a board you want to use:
 
 /*
-//for Arduino Leonardo
-const int PIN_X = A0;  // Pi Pico -> Pin31
-const int PIN_Y = A1;  // Pi Pico -> Pin32
-const int STAT_LED = 13;
-const int D_PIN_OBJ[] = { 7, 6, 5, 4, 3, 2, 11, 10, 9, 8 };
-const String STICK_ORIENTATION = "portrait";
+  //for Arduino Leonardo
+  const int PIN_X = A0;  // Pi Pico -> Pin31
+  const int PIN_Y = A1;  // Pi Pico -> Pin32
+  const int STAT_LED = 13;
+  const int D_PIN_OBJ[] = { 7, 6, 5, 4, 3, 2, 11, 10, 9, 8 };
+  const String STICK_ORIENTATION = "portrait";
 */
 
 //for Pi Pico -> Pin 21,22,17,16,15,14,24,25,26,27

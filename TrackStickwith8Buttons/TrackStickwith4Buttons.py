@@ -3,9 +3,10 @@
 import pyautogui
 import keyboard
 import pygame
+import time
 
 print("QuizKnockSTADIUM スタンプチャット補助用スクリプト")
-print("終了するにはCtrlキーを押しながらCを押すか、ウインドウを閉じてください")
+print("終了するにはこのウインドウを閉じてください")
 #SetupPart:
 ScreenRez = pyautogui.size()
 print("画面解像度： {}x{}".format(ScreenRez[0], ScreenRez[1]))
@@ -15,12 +16,9 @@ if ScreenRez[0] != 1920:
 else:
     rezScale = 1
 
-PanelA = (850 * rezScale, 850 * rezScale)
-PanelB = (1100 * rezScale, 850 * rezScale)
-PanelC = (1340 * rezScale, 850 * rezScale)
-PanelD = (1600 * rezScale, 850 * rezScale)
 PanelY = (1650 * rezScale, 1000 * rezScale)
 PanelCh = (1850 * rezScale, 1000 * rezScale)
+
 PanelCh1 = (1650 * rezScale, 100 * rezScale)
 PanelCh2 = (1850 * rezScale, 100 * rezScale)
 PanelCh3 = (1650 * rezScale, 250 * rezScale)
@@ -33,11 +31,11 @@ PanelChPg = (1700 * rezScale, 800 * rezScale)
 
 
 while True:
-    if keyboard.is_pressed("x"):
+    if keyboard.is_pressed("z"):
         pyautogui.moveTo(PanelY)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-    elif keyboard.is_pressed("c"):
+    elif keyboard.is_pressed("x"):
         pyautogui.moveTo(PanelCh)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
@@ -77,3 +75,5 @@ while True:
         pyautogui.moveTo(PanelChPg)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
+
+    time.sleep(0.03)

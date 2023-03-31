@@ -4,15 +4,31 @@
 const bool DEBUG_MODE = false;
 
 //Uncomment a board you want to use:
+//#define RPPICO_RP2040
+#define PRO_MICRO_RP2040
+//#define FEATHER_RP2040
+//#define AE_RP2040
 
-//for Pro Micro RP2040 -> Pin 9,8,7,6,5,21,23,20,22,26
 //Please use with Arduino-Pico(https://github.com/earlephilhower/arduino-pico)
-const int STAT_LED = 25;
+//for Raspberry Pi Pico
+#ifdef RPPICO_RP2040
+const int D_PIN_OBJ[] = { 2, 3, 7, 8, 9, 6, 0, 1, 20, 19 };
+#endif
+
+//for Pro Micro RP2040
+#ifdef PRO_MICRO_RP2040
 const int D_PIN_OBJ[] = { 9, 8, 7, 6, 5, 21, 23, 20, 22, 26 };
+#endif
 
 //for Adafruit Feather RP2040
-/*const int STAT_LED = 13;
-const int D_PIN_OBJ[] = { 2, 3, 7, 8, 9, 6, 0, 1, 20, 19 };*/
+#ifdef FEATHER_RP2040
+const int D_PIN_OBJ[] = { 2, 3, 7, 8, 9, 6, 0, 1, 20, 19 };
+#endif
+
+//for AE-RP2040
+#ifdef AE_RP2040
+const int D_PIN_OBJ[] = { 0, 1, 2, 3, 4, 29, 28, 27, 26, 25 };
+#endif
 
 // Keyboard Wait Time in milliseconds
 const int MS_WAIT = 500;
@@ -64,8 +80,8 @@ void PopnMode() {
     actionKBKey(D_PIN_OBJ[3], '3');
     actionKBKey(D_PIN_OBJ[4], '4');
     actionKBKey(D_PIN_OBJ[5], '5');
-    actionKBKey(D_PIN_OBJ[6], '6');
-    actionKBKey(D_PIN_OBJ[7], '0');
+    actionKBKey(D_PIN_OBJ[6], '0');
+    actionKBKey(D_PIN_OBJ[7], '6');
     actionKBKey(D_PIN_OBJ[8], KEY_BACKSPACE);
     actionKBKey(D_PIN_OBJ[9], KEY_ESC);
   } else {
@@ -86,26 +102,26 @@ void PopnMode() {
 // Green Button + Plug
 void DIVAMode() {
   if (digitalRead(D_PIN_OBJ[0]) == LOW) {
-    actionKBKey(D_PIN_OBJ[1], 'R');
-    actionKBKey(D_PIN_OBJ[2], KEY_UP_ARROW);
+    actionKBKey(D_PIN_OBJ[1], 'r');
+    actionKBKey(D_PIN_OBJ[2], 'q');
     actionKBKey(D_PIN_OBJ[3], KEY_LEFT_ARROW);
-    actionKBKey(D_PIN_OBJ[4], 'Q');
+    actionKBKey(D_PIN_OBJ[4], KEY_UP_ARROW);
     actionKBKey(D_PIN_OBJ[5], KEY_RETURN);
-    actionKBKey(D_PIN_OBJ[6], 'E');
+    actionKBKey(D_PIN_OBJ[6], KEY_DOWN_ARROW);
     actionKBKey(D_PIN_OBJ[7], KEY_RIGHT_ARROW);
-    actionKBKey(D_PIN_OBJ[8], KEY_DOWN_ARROW);
+    actionKBKey(D_PIN_OBJ[8], 'e');
     actionKBKey(D_PIN_OBJ[9], KEY_ESC);
   } else {
     // Button1-9
-    actionJoyBtn(D_PIN_OBJ[1], 1);
-    actionJoyBtn(D_PIN_OBJ[2], 2);
-    actionJoyBtn(D_PIN_OBJ[3], 3);
-    //actionJoyBtn(D_PIN_OBJ[4], 4);
-    //actionJoyBtn(D_PIN_OBJ[5], 5);
-    //actionJoyBtn(D_PIN_OBJ[6], 6);
-    actionJoyBtn(D_PIN_OBJ[7], 4);
-    actionJoyBtn(D_PIN_OBJ[8], 5);
-    actionJoyBtn(D_PIN_OBJ[9], 6);
+    actionKBKey(D_PIN_OBJ[1], 'w');
+    actionKBKey(D_PIN_OBJ[2], KEY_LEFT_ARROW);
+    actionKBKey(D_PIN_OBJ[3], 'a');
+    actionKBKey(D_PIN_OBJ[4], KEY_UP_ARROW);
+    actionKBKey(D_PIN_OBJ[5], KEY_RETURN);
+    actionKBKey(D_PIN_OBJ[6], KEY_DOWN_ARROW);
+    actionKBKey(D_PIN_OBJ[7], 's');
+    actionKBKey(D_PIN_OBJ[8], KEY_RIGHT_ARROW);
+    actionKBKey(D_PIN_OBJ[9], 'd');
   }
 }
 
@@ -113,15 +129,15 @@ void DIVAMode() {
 // Red Button + Plug
 void QKSMode() {
   if (digitalRead(D_PIN_OBJ[0]) == LOW) {
-    actionKBKey(D_PIN_OBJ[5], 'g');
     actionKBKey(D_PIN_OBJ[2], 'q');
     actionKBKey(D_PIN_OBJ[4], 'w');
     actionKBKey(D_PIN_OBJ[6], 'e');
     actionKBKey(D_PIN_OBJ[8], 'r');
     actionKBKey(D_PIN_OBJ[1], 'a');
     actionKBKey(D_PIN_OBJ[3], 's');
-    actionKBKey(D_PIN_OBJ[7], 'd');
-    actionKBKey(D_PIN_OBJ[9], 'f');
+    actionKBKey(D_PIN_OBJ[5], 'd');
+    actionKBKey(D_PIN_OBJ[7], 'f');
+    actionKBKey(D_PIN_OBJ[9], 'x');
   } else {
     actionKBKey(D_PIN_OBJ[5], KEY_RETURN);
     actionKBKey(D_PIN_OBJ[2], '1');
@@ -130,8 +146,8 @@ void QKSMode() {
     actionKBKey(D_PIN_OBJ[8], '4');
     actionKBKey(D_PIN_OBJ[1], '5');
     actionKBKey(D_PIN_OBJ[3], '6');
-    actionKBKey(D_PIN_OBJ[7], 'x');
-    actionKBKey(D_PIN_OBJ[9], 'c');
+    actionKBKey(D_PIN_OBJ[7], '7');
+    actionKBKey(D_PIN_OBJ[9], '8');
   }
 }
 
@@ -143,14 +159,11 @@ void setup() {
   if (DEBUG_MODE) {
     Serial.begin(9600);
   } else {
-    pinMode(STAT_LED, OUTPUT);
     if (digitalRead(D_PIN_OBJ[5]) == LOW) {
-      digitalWrite(STAT_LED, HIGH);
       QKS_MODE = true;
       Keyboard.begin();
     } else if (digitalRead(D_PIN_OBJ[3]) == LOW
                || digitalRead(D_PIN_OBJ[7]) == LOW) {
-      digitalWrite(STAT_LED, HIGH);
       DIVA_MODE = true;
       Keyboard.begin();
       Joystick.begin();
@@ -172,6 +185,6 @@ void loop() {
     } else {
       PopnMode();
     }
-    delay(16);
+    delay(8);
   }
 }
