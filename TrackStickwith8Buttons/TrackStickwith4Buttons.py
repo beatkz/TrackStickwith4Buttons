@@ -4,38 +4,49 @@ import pyautogui
 import keyboard
 import pygame
 import time
+from decimal import Decimal, ROUND_HALF_UP
 
 print("QuizKnockSTADIUM スタンプチャット補助用スクリプト")
 print("終了するにはこのウインドウを閉じてください")
 #SetupPart:
 ScreenRez = pyautogui.size()
 print("画面解像度： {}x{}".format(ScreenRez[0], ScreenRez[1]))
-if ScreenRez[0] != 1920:
+
+aspect = Decimal(ScreenRez[0]/ScreenRez[1]).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
+offsetX = 0
+offsetY = 0
+
+if (aspect != 1.78):
+    rezScale = ScreenRez[1]/1080
+    offsetX = (ScreenRez[0] - (1920 * rezScale)) / 2
+elif (aspect == 1.78 and ScreenRez[0] != 1920):
     rezScale = ScreenRez[0]/1920
-    print("スケール倍率： {}倍".format(rezScale))
-else:
+elif (aspect == 1.78 and ScreenRez[0] == 1920):
     rezScale = 1
 
-PanelY = (1650 * rezScale, 1000 * rezScale)
-PanelCh = (1850 * rezScale, 1000 * rezScale)
+print("スケール倍率： {}倍".format(rezScale))
+    
 
-PanelCh1 = (1650 * rezScale, 100 * rezScale)
-PanelCh2 = (1850 * rezScale, 100 * rezScale)
-PanelCh3 = (1650 * rezScale, 250 * rezScale)
-PanelCh4 = (1850 * rezScale, 250 * rezScale)
-PanelCh5 = (1650 * rezScale, 450 * rezScale)
-PanelCh6 = (1850 * rezScale, 450 * rezScale)
-PanelCh7 = (1650 * rezScale, 600 * rezScale)
-PanelCh8 = (1850 * rezScale, 600 * rezScale)
-PanelChPg = (1700 * rezScale, 800 * rezScale)
+PanelY = ((1650 + offsetX) * rezScale, (1000 + offsetY) * rezScale)
+PanelCh = ((1850 + offsetX) * rezScale, (1000 + offsetY) * rezScale)
+
+PanelCh1 = ((1650 + offsetX) * rezScale, (100 + offsetY) * rezScale)
+PanelCh2 = ((1850 + offsetX) * rezScale, (100 + offsetY) * rezScale)
+PanelCh3 = ((1650 + offsetX) * rezScale, (250 + offsetY) * rezScale)
+PanelCh4 = ((1850 + offsetX) * rezScale, (250 + offsetY) * rezScale)
+PanelCh5 = ((1650 + offsetX) * rezScale, (450 + offsetY) * rezScale)
+PanelCh6 = ((1850 + offsetX) * rezScale, (450 + offsetY) * rezScale)
+PanelCh7 = ((1650 + offsetX) * rezScale, (600 + offsetY) * rezScale)
+PanelCh8 = ((1850 + offsetX) * rezScale, (600 + offsetY) * rezScale)
+PanelChPg = ((1700 + offsetX) * rezScale, (800 + offsetY) * rezScale)
 
 
 while True:
-    if keyboard.is_pressed("z"):
+    if keyboard.is_pressed("x"):
         pyautogui.moveTo(PanelY)
         pyautogui.mouseDown()
         pyautogui.mouseUp()
-    elif keyboard.is_pressed("x"):
+    elif keyboard.is_pressed("c"):
         pyautogui.moveTo(PanelCh)
         pyautogui.mouseDown()
         pyautogui.mouseUp()

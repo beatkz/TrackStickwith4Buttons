@@ -5,25 +5,56 @@ const bool DEBUG_MODE = false;
 
 //Uncomment a board you want to use:
 
-/*
+/*w
   //for Arduino Leonardo
-  const int PIN_X = A0;  // Pi Pico -> Pin31
-  const int PIN_Y = A1;  // Pi Pico -> Pin32
   const int STAT_LED = 13;
-  const int D_PIN_OBJ[] = { 7, 6, 5, 4, 3, 2, 11, 10, 9, 8 };
+  const int D_PIN_OBJ[] = { 7 };
   const String STICK_ORIENTATION = "portrait";
 */
 
-//for Pi Pico -> Pin 21,22,17,16,15,14,24,25,26,27
+//Actual Pin No for Pi Pico -> Stick: 21,31,32 col:11,10,9 row:7,6,5,4
 //Please use with Arduino-Pico(https://github.com/earlephilhower/arduino-pico)
-const int PIN_X = A0;  // Pi Pico -> Pin31
-const int PIN_Y = A1;  // Pi Pico -> Pin32
 const int STAT_LED = 25;
-const int D_PIN_OBJ[] = { 16, 17, 13, 12, 11, 10, 18, 19, 20, 21 };
+const int D_PIN_OBJ[] = { 16 };
 const String STICK_ORIENTATION = "landscape";
 
+const int PIN_X = A0;  // Pi Pico -> Pin31
+const int PIN_Y = A1;  // Pi Pico -> Pin32
+const int ROWS = 3;
+const int ROW_PIN[ROWS] = {9, 8, 7};
+const int COLS = 5;
+const int COL_PIN[COLS] = {6, 5, 4, 3, 2};
+const int PAGES = 3;
+
+int page;
+int maxpage;
+
+bool stats2D[ROWS][COLS];
+bool preStats2D[ROWS][COLS];
+
+char keymaps[PAGES][ROWS][COLS] = {
+  {
+    //page 0
+    {'x', 'c', '9', '0'},
+    {'1', '2', '3', '4'},
+    {'5', '6', '7', '8'}
+  },
+  {
+    //page 1
+    {KEY_BACKSPACE, 'g', 'x', 'c'},
+    {'q', 'w', 'e', 'r'},
+    {'a', 's', 'd', 'f'}
+  },
+  {
+    //page 2
+    {KEY_BACKSPACE, '7', '8', '9'},
+    {KEY_RETURN, '4', '5', '6'},
+    {'0', '1', '2', '3'}
+  }
+};
+
 // Keyboard Wait Time in milliseconds
-const int MS_WAIT = 500;
+const int MS_WAIT = 100;
 const int CENTER_RANGE = 75;
 bool ClickMode = false;
 
@@ -61,29 +92,52 @@ int mouseVelfromRelC(int relC) {
   }
 }
 
+void scanStats2D() {
+  for (int i = 0; i < ROWS; i++) {
+    digitalWrite(ROW_PIN[i], LOW);
+    for (int j = 0; j < COLS; j++) {
+      stats2D[i][j] = digitalRead(COL_PIN[j]);
+      if (!DEBUG_MODE
+          && !(j == 0)
+          && (stats2D[i][j] != preStats2D[i][j])) {
+        if (stats2D[i][j] == LOW) {
+          Keyboard.press(keymaps[page][i][j - 1]);
+        } else {
+          Keyboard.release(keymaps[page][i][j - 1]);
+        }
+        preStats2D[i][j] = stats2D[i][j];
+      }
+    }
+    digitalWrite(ROW_PIN[i], HIGH);
+  }
+}
+
 void dumpStates(int stX, int stY) {
   //for debug
   //stX,stY,Ent,LClk,1,2,3,4,5,6,7,8
-  int stats[12] = {
-    stX, stY, digitalRead(D_PIN_OBJ[0]), digitalRead(D_PIN_OBJ[1]),
-    digitalRead(D_PIN_OBJ[2]), digitalRead(D_PIN_OBJ[3]), digitalRead(D_PIN_OBJ[4]), digitalRead(D_PIN_OBJ[5]),
-    digitalRead(D_PIN_OBJ[6]), digitalRead(D_PIN_OBJ[7]), digitalRead(D_PIN_OBJ[8]), digitalRead(D_PIN_OBJ[9])
+  scanStats2D();
+  int stats[ROWS + 1][COLS] = {
+    {stX, stY, digitalRead(D_PIN_OBJ[0]), -1, -1},
+    {stats2D[0][0], stats2D[0][1], stats2D[0][2], stats2D[0][3], stats2D[0][4]},
+    {stats2D[1][0], stats2D[1][1], stats2D[1][2], stats2D[1][3], stats2D[1][4]},
+    {stats2D[2][0], stats2D[2][1], stats2D[2][2], stats2D[2][3], stats2D[2][4]}
   };
 
-  String dumpStat = "";
-  for (int i = 0; i < 12; i++) {
-    dumpStat += stats[i];
-    if (i != 11) {
-      dumpStat += ",";
+  String dumpStat;
+  for (int i = 0; i < 4; i++) {
+    dumpStat = "";
+    for (int j = 0; j < COLS; j++) {
+      dumpStat += stats[i][j];
+      dumpStat += " ";
     }
+    Serial.println(dumpStat);
   }
-  Serial.println(dumpStat);
   delay(1000);
 }
 
 void actionClick(int relX, int relY) {
-  if (digitalRead(D_PIN_OBJ[0]) == LOW
-      || digitalRead(D_PIN_OBJ[1]) == LOW) {
+  scanStats2D();
+  if (digitalRead(D_PIN_OBJ[0]) == LOW || stats2D[0][0] == LOW) {
     if (!Mouse.isPressed(MOUSE_LEFT)) {
       Mouse.press(MOUSE_LEFT);
     }
@@ -94,12 +148,13 @@ void actionClick(int relX, int relY) {
 }
 
 void actionEnter(int relX, int relY) {
+  scanStats2D();
   if (digitalRead(D_PIN_OBJ[0]) == LOW) {
     Keyboard.write(KEY_RETURN);
     delay(MS_WAIT);
   }
 
-  if (digitalRead(D_PIN_OBJ[1]) == LOW) {
+  if (stats2D[0][0] == LOW) {
     if (!Mouse.isPressed(MOUSE_LEFT)) {
       Mouse.press(MOUSE_LEFT);
     }
@@ -110,53 +165,77 @@ void actionEnter(int relX, int relY) {
   actionHID(relX, relY);
 }
 
+void changePage() {
+  if (stats2D[1][0] == LOW) {
+    if (page == maxpage) {
+      page = 0;
+    } else {
+      page++;
+    }
+    blinkLED(page);
+    delay(MS_WAIT);
+  } else if (stats2D[2][0] == LOW) {
+    if (page == 0) {
+      page = maxpage;
+    } else {
+      page--;
+    }
+    blinkLED(page);
+    delay(MS_WAIT);
+  }
+}
+
+void blinkLED(int times) {
+  for (int i = 0; i < times; i++) {
+    digitalWrite(STAT_LED, LOW);
+    delay(50);
+    digitalWrite(STAT_LED, HIGH);
+    delay(50);
+  }
+  if (times == 0) {
+    digitalWrite(STAT_LED, LOW);
+  }
+}
+
 void actionHID(int relX, int relY) {
   if (abs(relX) > CENTER_RANGE || abs(relY) > CENTER_RANGE) {
     Mouse.move(mouseVelfromRelC(relX), mouseVelfromRelC(relY), 0);
   }
+  changePage();
 
-  // KeyPad
-  if (digitalRead(D_PIN_OBJ[2]) == LOW) {
-    Keyboard.write('1');
-    delay(MS_WAIT);
-  } else if (digitalRead(D_PIN_OBJ[3]) == LOW) {
-    Keyboard.write('2');
-    delay(MS_WAIT);
-  } else if (digitalRead(D_PIN_OBJ[4]) == LOW) {
-    Keyboard.write('3');
-    delay(MS_WAIT);
-  } else if (digitalRead(D_PIN_OBJ[5]) == LOW) {
-    Keyboard.write('4');
-    delay(MS_WAIT);
-  } else if (digitalRead(D_PIN_OBJ[6]) == LOW) {
-    Keyboard.write('5');
-    delay(MS_WAIT);
-  } else if (digitalRead(D_PIN_OBJ[7]) == LOW) {
-    Keyboard.write('6');
-    delay(MS_WAIT);
-  } else if (digitalRead(D_PIN_OBJ[8]) == LOW) {
-    Keyboard.write('7');
-    delay(MS_WAIT);
-  } else if (digitalRead(D_PIN_OBJ[9]) == LOW) {
-    Keyboard.write('8');
-    delay(MS_WAIT);
-  }
   delay(16);
 }
 
-void setup() {
-  for (int i = 0; i <= 9; i++) {
-    pinMode(D_PIN_OBJ[i], INPUT_PULLUP);
+void initStats() {
+  for (int i = 0; i < ROWS; i++) {
+    for (int j = 0; j < COLS; j++) {
+      stats2D[i][j] = HIGH;
+      preStats2D[i][j] = HIGH;
+    }
+    digitalWrite(ROW_PIN[i], HIGH);
   }
+}
+
+void setup() {
+  for (int i = 0; i < ROWS; i++) {
+    pinMode(ROW_PIN[i], OUTPUT);
+  }
+  for (int i = 0; i < COLS; i++) {
+    pinMode(COL_PIN[i], INPUT_PULLUP);
+  }
+
+  initStats();
 
   if (DEBUG_MODE) {
     Serial.begin(9600);
   } else {
     pinMode(STAT_LED, OUTPUT);
-    if (digitalRead(D_PIN_OBJ[1]) == LOW) {
+    if (digitalRead(D_PIN_OBJ[0]) == LOW) {
       ClickMode = true;
       digitalWrite(STAT_LED, HIGH);
     }
+    page = 0;
+    maxpage = PAGES - 1;
     Mouse.begin();
     Keyboard.begin();
   }
