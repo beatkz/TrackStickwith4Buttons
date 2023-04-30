@@ -4,19 +4,23 @@
 const bool DEBUG_MODE = false;
 
 //Uncomment a board you want to use:
+#define ARDUINO_LEO
+//#define RPPICO_RP2040
 
-/*w
+#ifdef ARDUINO_LEO
   //for Arduino Leonardo
   const int STAT_LED = 13;
   const int D_PIN_OBJ[] = { 7 };
   const String STICK_ORIENTATION = "portrait";
-*/
+#endif
 
+#ifdef RPPICO_RP2040
 //Actual Pin No for Pi Pico -> Stick: 21,31,32 col:11,10,9 row:7,6,5,4
 //Please use with Arduino-Pico(https://github.com/earlephilhower/arduino-pico)
 const int STAT_LED = 25;
 const int D_PIN_OBJ[] = { 16 };
 const String STICK_ORIENTATION = "landscape";
+#endif
 
 const int PIN_X = A0;  // Pi Pico -> Pin31
 const int PIN_Y = A1;  // Pi Pico -> Pin32
@@ -35,15 +39,15 @@ bool preStats2D[ROWS][COLS];
 char keymaps[PAGES][ROWS][COLS] = {
   {
     //page 0
-    {'x', 'c', '9', '0'},
     {'1', '2', '3', '4'},
-    {'5', '6', '7', '8'}
+    {'5', '6', '7', '8'},
+    {'9', '0', 'x', 'c'}
   },
   {
     //page 1
-    {KEY_BACKSPACE, 'g', 'x', 'c'},
     {'q', 'w', 'e', 'r'},
-    {'a', 's', 'd', 'f'}
+    {'a', 's', 'd', 'f'},
+    {KEY_BACKSPACE, 'g', 'x', 'c'}
   },
   {
     //page 2

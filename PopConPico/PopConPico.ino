@@ -137,7 +137,7 @@ void QKSMode() {
     actionKBKey(D_PIN_OBJ[3], 's');
     actionKBKey(D_PIN_OBJ[5], 'd');
     actionKBKey(D_PIN_OBJ[7], 'f');
-    actionKBKey(D_PIN_OBJ[9], 'x');
+    actionKBKey(D_PIN_OBJ[9], 'c');
   } else {
     actionKBKey(D_PIN_OBJ[5], KEY_RETURN);
     actionKBKey(D_PIN_OBJ[2], '1');
