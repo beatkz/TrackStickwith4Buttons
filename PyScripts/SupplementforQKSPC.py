@@ -16,8 +16,6 @@ print("画面解像度： {}x{}".format(ScreenRez[0], ScreenRez[1]))
 aspect = Decimal(ScreenRez[0]/ScreenRez[1]).quantize(Decimal('0.01'), rounding=ROUND_HALF_UP)
 offsetX = 0
 offsetY = 0
-countPerSec = 30
-waitTime = int(Decimal(1.0/countPerSec).quantize(Decimal('0.01'),rounding=ROUND_HALF_UP))
 
 if (aspect != 1.78):
     rezScale = ScreenRez[1]/1080
