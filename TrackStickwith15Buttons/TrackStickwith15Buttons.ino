@@ -4,14 +4,14 @@
 const bool DEBUG_MODE = false;
 
 //Uncomment a board you want to use:
-#define ARDUINO_LEO
-//#define RPPICO_RP2040
+//#define ARDUINO_LEO
+#define RPPICO_RP2040
 
 #ifdef ARDUINO_LEO
-  //for Arduino Leonardo
-  const int STAT_LED = 13;
-  const int D_PIN_OBJ[] = { 7 };
-  const String STICK_ORIENTATION = "portrait";
+//for Arduino Leonardo
+const int STAT_LED = 13;
+const int D_PIN_OBJ[] = { 7 };
+const String STICK_ORIENTATION = "portrait";
 #endif
 
 #ifdef RPPICO_RP2040
@@ -39,15 +39,15 @@ bool preStats2D[ROWS][COLS];
 char keymaps[PAGES][ROWS][COLS] = {
   {
     //page 0
+    {'9', '0', 'x', 'c'},
     {'1', '2', '3', '4'},
-    {'5', '6', '7', '8'},
-    {'9', '0', 'x', 'c'}
+    {'5', '6', '7', '8'}
   },
   {
     //page 1
     {'q', 'w', 'e', 'r'},
     {'a', 's', 'd', 'f'},
-    {KEY_BACKSPACE, 'g', 'x', 'c'}
+    {KEY_BACKSPACE, 'v', 'x', 'c'}
   },
   {
     //page 2

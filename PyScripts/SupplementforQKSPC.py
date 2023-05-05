@@ -43,6 +43,8 @@ PanelChPg = ((1700 + offsetX) * rezScale, (800 + offsetY) * rezScale)
 
 Keys = ['x', 'c', 'v', '5', '6', 't', 'y', 'g', 'h', 'b', 'n', 'q', 'w', 'e', 'r']
 #Keys = ['x', 'c', 'v', '9', '0', 'o', 'p', 'l', ';', '.', '/', 'q', 'w', 'e', 'r']
+#Keys = ['x', 'c', 'v', 'q', 'w', 'e', 'r', 'a', 's', 'd', 'f', 'y', 'u', 'i', 'o']
+
 
 def clickPanel(key,targetXY):
     pyautogui.moveTo(targetXY)

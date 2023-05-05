@@ -30,13 +30,13 @@ const int D_PIN_OBJ[] = {
 #ifdef AE_RP2040
 //Actual Pin No for Pi Pico -> Stick: 21,31,32 col:11,10,9 row:7,6,5,4
 //Please use with Arduino-Pico(https://github.com/earlephilhower/arduino-pico)
-const int BUTTONS = 25;
+const int BUTTONS = 26;
 const int STAT_LED = 25;
 const int D_PIN_OBJ[] = {
   15, 14, 13, 12, 11, 10, 9, 8,
   7, 6, 5, 4, 3, 2, 16,
   17, 18, 19, 20, 21, 22,
-  23, 24, 26, 28
+  23, 24, 26, 27 , 28
 };
 #endif
 
@@ -47,7 +47,7 @@ const unsigned char NOTE_MAP[] = {
   0x24, 0x26, 0x28, 0x29, 0x2b, 0x2d, 0x2f,
   0x30, 0x32, 0x34, 0x35, 0x37, 0x39, 0x3b,
   0x3c, 0x3e, 0x40, 0x41, 0x43, 0x45, 0x47,
-  0x48, 0x4a, 0x4c
+  0x48, 0x4a, 0x4c, 0x4d
 };
 
 void scanStats() {
